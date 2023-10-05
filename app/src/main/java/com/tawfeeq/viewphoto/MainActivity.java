@@ -2,6 +2,7 @@ package com.tawfeeq.viewphoto;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,20 +12,22 @@ import android.widget.ImageView;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button BSI;
+    Button btnimg;
 
-    ImageView ImageView;
+    ImageView Previewimage;
 
     int SELECT_PICTURE = 200;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        BSI=findViewById(R.id.btnimg);
-        ImageView=findViewById(R.id.Previewimage);
-        BSI.setOnClickListener(new View.OnClickListener() {
+        btnimg=findViewById(R.id.btnimg);
+        Previewimage=findViewById(R.id.Previewimage);
+        btnimg.setOnClickListener(new View.OnClickListener() {
+            @Override
             public void onClick(View v) {
                 ImageChooser();
             }
@@ -32,24 +35,18 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
-    private void ImageChooser() {
+    public void ImageChooser() {
         Intent i = new Intent();
         i.setType("image/*");
         i.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(i,"Select Picture"),SELECT_PICTURE);
+
+        startActivityForResult(Intent.createChooser(i,"SELECT PICTURE"),SELECT_PICTURE);
     }
 
-    public void onActivityResult(int requestCode, int resultCode, Intent Data){
-        super.onActivityResult(requestCode,resultCode,Data);
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode,resultCode,data);
 
-        if(resultCode == RESULT_OK){
-            if(resultCode== SELECT_PICTURE){
-                Uri SIuri = Data.getData();
-                if(null != SIuri){
-                    ImageView.setImageURI(SIuri);
-                }
-            }
-
-        }
+        Uri SIuri = data.getData();
+        Previewimage.setImageURI(SIuri);
     }
 }
